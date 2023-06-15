@@ -1,7 +1,8 @@
 {
   "main": "src/server.ts",
   "scripts": {
-    "start": "ts-node src/server.ts"
+    "start": "ts-node --files src/server.ts",
+    "richmenu": "ts-node --files src/utils/richmenu.ts"
   },
   "dependencies": {
     "@line/bot-sdk": "^7.5.2",
