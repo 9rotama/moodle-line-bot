@@ -7,7 +7,7 @@ export const messageUsecase = async (event: MessageEvent) => {
   try {
     switch (event.message.type) {
       case "text": {
-        messagesTextUseCase(event);
+        await messagesTextUseCase(event);
         break;
       }
       default: {
