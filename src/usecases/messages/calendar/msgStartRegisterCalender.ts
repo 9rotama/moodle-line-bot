@@ -1,6 +1,6 @@
 import { FlexMessage } from "@line/bot-sdk";
 
-export const msgRegisterCalender: FlexMessage = {
+export const msgStartRegisterCalender: FlexMessage = {
   type: "flex",
   altText: "これはカレンダー登録の手順説明です",
   contents: {

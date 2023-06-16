@@ -1,3 +1,6 @@
+/data
+/prisma/migrations
+
 ### macOS ###
 # General
 .DS_Store
