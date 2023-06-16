@@ -1,9 +1,15 @@
-import { ClientConfig, Client, MessageEvent } from "@line/bot-sdk";
+import {
+  ClientConfig,
+  Client,
+  MessageEvent,
+  WebhookEvent,
+} from "@line/bot-sdk";
 import { Request, Response } from "express";
 import dotenv from "dotenv";
 
 import { messageUsecase } from "./usecases/messages";
 import { verifyLineSignature } from "./utils/verify";
+import { followUsecase } from "./usecases/follow";
 
 dotenv.config();
 
@@ -19,10 +25,14 @@ export const index = (req: Request, res: Response) => {
   if (verifyLineSignature(req, process.env.CHANNEL_SECRET!)) {
     const events = req.body.events;
 
-    events.forEach(async (event: MessageEvent) => {
+    events.forEach(async (event: WebhookEvent) => {
       switch (event.type) {
         case "message": {
-          message = await messageUsecase(event);
+          await messageUsecase(event);
+          break;
+        }
+        case "follow": {
+          await followUsecase(event);
           break;
         }
         default:
