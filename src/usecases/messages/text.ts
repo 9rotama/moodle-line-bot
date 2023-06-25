@@ -5,11 +5,13 @@ import { startRegisterCalender } from "./calendar/startRegisterCalender";
 import { Session, sessions } from "../../utils/session";
 import { registerCalender } from "./calendar/registerCalender";
 import { checkCalenderUrl } from "./calendar/checkCalenderUrl";
+import { getTasks } from "./tasks/getTasks";
 
 export const messagesTextUseCase = async (event: MessageEvent) => {
   const { text } = event.message as TextEventMessage;
 
   if (text == "課題一覧") {
+    await getTasks(event);
   } else if (text == "カレンダー登録") {
     await startRegisterCalender(event);
   } else if (text == "通知設定") {

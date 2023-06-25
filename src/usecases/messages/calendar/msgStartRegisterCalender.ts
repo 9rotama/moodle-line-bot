@@ -48,7 +48,7 @@ export const msgStartRegisterCalender: FlexMessage = {
             },
             {
               type: "text",
-              text: "・期間: 「今週」",
+              text: "・期間: 「最近および次の60日間」",
               wrap: true,
             },
             {

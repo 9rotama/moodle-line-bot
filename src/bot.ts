@@ -1,9 +1,4 @@
-import {
-  ClientConfig,
-  Client,
-  MessageEvent,
-  WebhookEvent,
-} from "@line/bot-sdk";
+import { ClientConfig, Client, WebhookEvent } from "@line/bot-sdk";
 import { Request, Response } from "express";
 import dotenv from "dotenv";
 

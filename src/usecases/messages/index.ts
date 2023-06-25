@@ -4,18 +4,14 @@ import { client } from "../../bot";
 import { msgOther } from "./msgOther";
 
 export const messageUsecase = async (event: MessageEvent) => {
-  try {
-    switch (event.message.type) {
-      case "text": {
-        await messagesTextUseCase(event);
-        break;
-      }
-      default: {
-        await client.replyMessage(event.replyToken, msgOther);
-        break;
-      }
+  switch (event.message.type) {
+    case "text": {
+      await messagesTextUseCase(event);
+      break;
     }
-  } catch {
-    throw new Error("messages Usecase");
+    default: {
+      await client.replyMessage(event.replyToken, msgOther);
+      break;
+    }
   }
 };
