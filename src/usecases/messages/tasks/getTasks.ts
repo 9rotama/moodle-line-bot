@@ -1,47 +1,34 @@
-import { MessageEvent } from "@line/bot-sdk";
 import axios from "axios";
 import { parseICS } from "node-ical";
 
-import { prisma } from "../../../db/db";
-import { client } from "../../../bot";
-import { msgUserNotFound } from "./msgUserNotFound";
-import { Event, Task } from "./tasks";
+import { Event, Task } from "../../../types/tasks";
+import { extractTaskName } from "../../../utils/taskSummary";
 
 const eventToTask = (event: Event) => {
+  const submissionTaskName = extractTaskName(event.summary);
+
   const task: Task = {
     uid: event.uid,
-    summary: event.summary,
+    summary: submissionTaskName ? submissionTaskName : event.summary,
     deadline: event.end,
     course: event.categories ? event.categories[0] : undefined,
   };
   return task;
 };
 
-export const getTasks = async (event: MessageEvent) => {
-  const userId = event.source.userId;
-  if (!userId) throw new Error("userId is undefined");
-  const user = await prisma.user.findUnique({
-    where: {
-      id: userId,
-    },
-  });
+export const getTasks = async (calendarUrl: string): Promise<Task[]> => {
+  const { data } = await axios.get(calendarUrl);
+  const calendar = parseICS(data);
 
-  if (!user) {
-    await client.replyMessage(event.replyToken, msgUserNotFound);
-    return;
-  }
-
-  const { data } = await axios.get(user.calenderUrl);
-  const calender = parseICS(data);
-
-  const tasks = Object.keys(calender)
-    .map((e) =>
-      calender[e].type == "VEVENT"
-        ? eventToTask(calender[e] as Event)
+  const calendarComponents: (Task | undefined)[] = Object.keys(calendar).map(
+    (e) =>
+      calendar[e].type == "VEVENT"
+        ? eventToTask(calendar[e] as Event)
         : undefined
-    )
-    .filter((e) => e); // undefined を除く
-  console.log(tasks);
+  );
 
-  return tasks;
+  const filteredTasks: Task[] = calendarComponents.filter(
+    (task): task is Task => task !== undefined
+  );
+  return filteredTasks;
 };
