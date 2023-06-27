@@ -1,7 +1,7 @@
 import { FlexBox, FlexButton, FlexMessage, FlexSeparator } from "@line/bot-sdk";
 import { Task } from "../../../types/tasks";
 import { formatDisplayDeadline } from "../../../utils/time";
-import courseList from "../../../utils/courseList.json";
+import courseList from "../../../../assets/courseList.json";
 
 const DoneButton = (task: Task): FlexButton => {
   const tweetText: string = task.summary;

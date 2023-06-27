@@ -31,7 +31,7 @@ fetchCourseName().then((courseNames) => {
   const jsonString = JSON.stringify(courseNames);
   console.log(fetchCourseName());
 
-  fs.writeFile("src/utils/courseList.json", jsonString, "utf8", (err) => {
+  fs.writeFile("assets/courseList.json", jsonString, "utf8", (err) => {
     if (err) {
       console.error(err);
       return;

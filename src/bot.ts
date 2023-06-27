@@ -15,8 +15,6 @@ const clientConfig: ClientConfig = {
 export const client = new Client(clientConfig);
 
 export const index = (req: Request, res: Response) => {
-  let message;
-
   if (verifyLineSignature(req, process.env.CHANNEL_SECRET!)) {
     const events = req.body.events;
 
