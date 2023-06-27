@@ -4,7 +4,6 @@ import { Task } from "../../../types/tasks";
 import { msgTasks } from "./msgTasks";
 
 export const displayTasks = async (event: MessageEvent, tasks: Task[]) => {
-  const msg = msgTasks(tasks) as any;
-  console.log(msg.contents.body.contents);
+  const msg = msgTasks(tasks);
   await client.replyMessage(event.replyToken, msg);
 };

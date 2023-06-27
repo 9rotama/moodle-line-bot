@@ -8,5 +8,5 @@ interface Task {
 }
 
 interface Event extends VEvent {
-  categories: string[] | undefined;
+  categories: string[];
 }

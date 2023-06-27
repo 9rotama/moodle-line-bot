@@ -1,6 +1,7 @@
 import { FlexBox, FlexButton, FlexMessage, FlexSeparator } from "@line/bot-sdk";
 import { Task } from "../../../types/tasks";
 import { formatDisplayDeadline } from "../../../utils/time";
+import courseList from "../../../utils/courseList.json";
 
 const DoneButton = (task: Task): FlexButton => {
   const tweetText: string = task.summary;
@@ -18,6 +19,16 @@ const DoneButton = (task: Task): FlexButton => {
 };
 
 const TaskBox = (task: Task): FlexBox => {
+  const courses: { [key: string]: string } = courseList;
+  const courseId = task.course;
+  let courseName: string;
+  if (courseId && courseId in courseList) {
+    courseName = `${courseId} ${courses[courseId]}`;
+  } else if (task.course) {
+    courseName = `${courseId} コース名不明`;
+  } else {
+    courseName = `コース名不明`;
+  }
   return {
     type: "box",
     layout: "horizontal",
@@ -32,7 +43,7 @@ const TaskBox = (task: Task): FlexBox => {
           },
           {
             type: "text",
-            text: task.course ? task.course : "",
+            text: courseName,
             size: "12px",
           },
           {

@@ -7,11 +7,15 @@ import { extractTaskName } from "../../../utils/taskSummary";
 const eventToTask = (event: Event) => {
   const submissionTaskName = extractTaskName(event.summary);
 
+  const category = event.categories[0];
+  const match = category.match(/^([A-Za-z0-9]+)_/);
+  const course = match ? match[1] : undefined;
+
   const task: Task = {
     uid: event.uid,
     summary: submissionTaskName ? submissionTaskName : event.summary,
     deadline: event.end,
-    course: event.categories ? event.categories[0] : undefined,
+    course: course,
   };
   return task;
 };
