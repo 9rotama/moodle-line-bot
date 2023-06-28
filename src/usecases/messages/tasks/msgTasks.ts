@@ -1,16 +1,15 @@
 import { FlexBox, FlexButton, FlexMessage, FlexSeparator } from "@line/bot-sdk";
 import { Task } from "../../../types/tasks";
 import { formatDisplayDeadline } from "../../../utils/time";
-import courseList from "../../../../assets/courseList.json";
+import { getCourseName } from "./getCourseName";
 
 const DoneButton = (task: Task): FlexButton => {
-  const tweetText: string = task.summary;
   return {
     type: "button",
     action: {
-      type: "uri",
+      type: "postback",
       label: "完了",
-      uri: `https://twitter.com`,
+      data: `taskDone-${task.uid}`,
     },
     color: "#0366fc",
     style: "primary",
@@ -19,16 +18,7 @@ const DoneButton = (task: Task): FlexButton => {
 };
 
 const TaskBox = (task: Task): FlexBox => {
-  const courses: { [key: string]: string } = courseList;
-  const courseId = task.course;
-  let courseName: string;
-  if (courseId && courseId in courseList) {
-    courseName = `${courseId} ${courses[courseId]}`;
-  } else if (task.course) {
-    courseName = `${courseId} コース名不明`;
-  } else {
-    courseName = `コース名不明`;
-  }
+  const courseName = getCourseName(task.course);
   return {
     type: "box",
     layout: "horizontal",
